@@ -84,7 +84,7 @@ public class VitaLiteOptions extends OptionsParser
             name = "targetBootstrap",
             description = "Bootstrap a specific runelite version"
     )
-    private String targetBootstrap = null;
+    private String targetBootstrap = "1.12.26.2";
 
     @CLIArgument(
             name = "world",

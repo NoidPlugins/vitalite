@@ -31,6 +31,22 @@ VitaLite is a launcher for RuneLite that offers additional features and customiz
 1. Run the `buildAndPublishAll` gradle task to build the artifacts and setup the main module correctly
 2. Run the `com.tonic.VitaLite` main class to launch the client
 
+### Run This 1.12.26.2 Update
+
+This fork is pinned to RuneLite `1.12.26.2` by default, so you do not need to pass
+`--targetBootstrap` for normal use.
+
+```bash
+./gradlew shadowJar
+java -jar build/libs/VitaLite-1.12.26.2_0-shaded.jar -safeLaunch
+```
+
+You can still override the target manually when developing a future update:
+
+```bash
+java -jar build/libs/VitaLite-1.12.26.2_0-shaded.jar -safeLaunch --targetBootstrap 1.12.26.2
+```
+
 ## Contributing
 1. Fork the repository
 2. Create a feature branch
@@ -43,6 +59,7 @@ VitaLite is a launcher for RuneLite that offers additional features and customiz
 |----------------|---------|---------------------------------------------------------------------------------------------------|
 | `-runInjector` | Boolean | Run the injector on startup and update patch difs (for mixin development)                         |
 | `--rsdump`     | String  | Path to dump the gamepack to (optional)                                                           |
+| `--targetBootstrap` | String | Override the pinned RuneLite bootstrap version. Defaults to `1.12.26.2`                     |
 | `-noPlugins`   | Boolean | Disables loading of core plugins                                                                  |
 | `-min`         | Boolean | Runs jvm with minimal alotted memory.                                                             |
 | `-noMusic`     | Boolean | Prevent the loading of music tracks                                                               |

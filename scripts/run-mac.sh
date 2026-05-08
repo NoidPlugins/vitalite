@@ -42,4 +42,4 @@ fi
 
 # Launch the application
 echo "Launching application..."
-"$JDK_DIR/Contents/Home/bin/java" -jar "$JAR_NAME" "$@"
+"$JDK_DIR/Contents/Home/bin/java" -jar "$JAR_NAME" -safeLaunch "$@"
