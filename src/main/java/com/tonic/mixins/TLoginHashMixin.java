@@ -2,7 +2,10 @@ package com.tonic.mixins;
 
 import com.tonic.injector.annotations.*;
 
-import java.util.Random;
+import java.util.Arrays;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Mixin("Client")
 public class TLoginHashMixin
@@ -13,57 +16,75 @@ public class TLoginHashMixin
     @Shadow("packedCallStack2")
     private static String packedClassStack2;
 
-    @Inject
-    private static String[] generatedPackedPairs;
-
     @MethodOverride("callStackPacker1")
     public static void callStackPacker1()
     {
-        generateNumberPair();
-        packedClassStack1 = generatedPackedPairs[0];
+        packedClassStack1 = packStackPart((System.currentTimeMillis() % 1000) + "\0", 3);
     }
 
     @MethodOverride("callStackPacker2")
     public static void callStackPacker2()
     {
-        generateNumberPair();
-        packedClassStack2 = generatedPackedPairs[1];
+        packedClassStack2 = packStackPart((System.currentTimeMillis() % 1000) + "\0", 3);
     }
 
     @MethodOverride("callStackCheck")
     public static String callStackCheck(long l) {
-        return "client8982ye\n" +
-                "client12161vi\n" +
-                "nrc.RuneLite297start\n" +
-                "nrc.RuneLite274main\n" +
-                "nrl.ReflectionLa+64lambda$launc+\n" +
-                "jl.ThreadUnknown S+";
+        try {
+            Pattern stackFramePattern = Pattern.compile("\\[?([^,]*/)?([^,]*\\.)?([^.,]*)\\.([^,.]+)\\(([^,:]+:)?([^,:)]*)\\)(, |\\])");
+            Matcher matcher = stackFramePattern.matcher(Arrays.toString(new RuntimeException().getStackTrace()));
+            StringBuffer packedStack = new StringBuffer();
+            while (matcher.find()) {
+                matcher.appendReplacement(packedStack, packStackFrame(matcher.toMatchResult()));
+            }
+            matcher.appendTail(packedStack);
+            return packStackPart(packedStack.toString(), 119);
+        } catch (Exception e) {
+            return String.valueOf(e);
+        }
     }
 
     @Inject
-    public static void generateNumberPair() {
-        if(generatedPackedPairs != null) {
-            return;
+    private static String packStackPart(String value, int maxLength) {
+        if (value.length() > maxLength) {
+            return value.substring(0, maxLength) + "+";
         }
-        Random rand = new Random();
+        return value;
+    }
 
-        int firstNum = 137 + rand.nextInt(650);
-
-        int difference;
-        double prob = rand.nextDouble();
-        if (prob < 0.7) {
-            difference = 90;
-        } else if (prob < 0.85) {
-            difference = 85 + rand.nextInt(7);
-        } else {
-            difference = rand.nextBoolean() ? 85 : 107;
+    @Inject
+    private static String packStackFrame(MatchResult match) {
+        String packageName = match.group(2);
+        if (isSuppressedStackPackage(packageName)) {
+            return "";
         }
 
-        int secondNum = firstNum + difference;
+        String abbreviatedPackage = packageName == null
+                ? ""
+                : Pattern.compile("(.)[^.]*\\.").matcher(packageName).replaceAll("$1") + ".";
 
-        generatedPackedPairs = new String[] {
-                firstNum + "+",
-                secondNum + "+"
-        };
+        return Matcher.quoteReplacement(
+                abbreviatedPackage
+                        + packStackPart(match.group(3), 12)
+                        + match.group(6)
+                        + packStackPart(match.group(4), 12)
+                        + "\n");
+    }
+
+    @Inject
+    private static boolean isSuppressedStackPackage(String packageName) {
+        if (packageName == null) {
+            return false;
+        }
+
+        switch (packageName.hashCode()) {
+            case -688050619: // java.lang.reflect.
+            case 575645442:  // java.lang.invoke.
+            case 1227444965: // jdk.internal.reflect.
+            case 1675929244:
+                return true;
+            default:
+                return false;
+        }
     }
 }

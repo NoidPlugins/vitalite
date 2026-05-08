@@ -1,6 +1,5 @@
 package com.tonic.mixins;
 
-import ch.qos.logback.classic.spi.PlatformInfo;
 import com.tonic.Logger;
 import com.tonic.Static;
 import com.tonic.injector.annotations.Inject;
@@ -18,14 +17,8 @@ public abstract class TDeviceIDMixin
     @Shadow("JX_CHARACTER_ID")
     public static String characterId;
 
-//    @MethodOverride("getDeviceId")
-//    public static String getDeviceId(PlatformInfo info, int os)
-//    {
-//        return process(os);
-//    }
-
-    @MethodOverride("getDeviceId")
-    public String getDeviceId(int os)
+    @MethodOverride("getHardwareUUID")
+    public String getHardwareUUID(int os)
     {
         return process(os);
     }
