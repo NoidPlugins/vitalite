@@ -1,0 +1,33 @@
+package com.tonic.util.dto;
+
+import com.google.gson.annotations.Expose;
+import lombok.Data;
+
+@Data
+public class JField
+{
+    @Expose
+    private String name;
+    @Expose
+    private String obfuscatedName;
+    @Expose
+    private String owner;
+    @Expose
+    private String ownerObfuscatedName;
+    @Expose
+    private String descriptor;
+    @Expose
+    private Number getter;
+    @Expose
+    private Number setter;
+    @Expose
+    private boolean isStatic;
+
+    private boolean fieldHookAfter = false;
+
+    @Override
+    public String toString()
+    {
+        return name + " [" + ownerObfuscatedName + "." + obfuscatedName + " : " + owner + "." + name + "] " + descriptor;
+    }
+}
