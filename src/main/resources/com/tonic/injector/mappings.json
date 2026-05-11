@@ -8947,7 +8947,7 @@
         "descriptor": "Ljava/lang/String;",
         "isStatic": true,
         "name": "JX_DISPLAY_NAME",
-        "obfuscatedName": "cx",
+        "obfuscatedName": "cr",
         "ownerObfuscatedName": "ci"
       },
       {
