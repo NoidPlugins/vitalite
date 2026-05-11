@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Main-Class: com.tonic.VitaLite
+Implementation-Version: 1.12.26.3_0
+Implementation-Title: VitaLite
+Implementation-Vendor: Tonic
+Multi-Release: true
+
