@@ -9,7 +9,7 @@ plugins {
 }
 
 val vitaVersion by extra("0")
-val runeliteVersion by extra("1.12.26.3")
+val runeliteVersion by extra("1.12.27")
 
 group = "com.tonic"
 version = runeliteVersion + "_" + vitaVersion
@@ -148,7 +148,8 @@ tasks {
                 "net/runelite/api/gameval/ItemID.class",
                 "net/runelite/api/gameval/InterfaceID.class",
                 "net/runelite/api/gameval/ObjectID.class",
-                "net/runelite/api/gameval/ObjectID1.class"
+                "net/runelite/api/gameval/ObjectID1.class",
+                "net/runelite/api/CameraFocusableEntity.class"
             )
 
             // Exclude if it's in api package (any level) but NOT in whitelist
@@ -288,7 +289,8 @@ tasks.register<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shad
             "net/runelite/api/gameval/ItemID.class",
             "net/runelite/api/gameval/InterfaceID.class",
             "net/runelite/api/gameval/ObjectID.class",
-            "net/runelite/api/gameval/ObjectID1.class"
+            "net/runelite/api/gameval/ObjectID1.class",
+            "net/runelite/api/CameraFocusableEntity.class"
         )
         isInApiPackage && path !in whitelist
     }

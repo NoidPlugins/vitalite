@@ -66,52 +66,32 @@ public class RLUpdater
 
         // Phase 1: Check if any artifact needs updating
         boolean needsUpdate = false;
-        boolean isForcedVersion = false;
         String forcedVersion = Static.getCliArgs().getTargetBootstrap();
         String version = bootstrap.getVersion();
-
-        if(forcedVersion != null && !forcedVersion.isEmpty())
-        {
-            for (Artifact art : artifacts) {
-                if (!platformMatches(art)) {
-                    continue;
-                }
-                if(art.getName().contains(forcedVersion + ".jar"))
-                {
-                    isForcedVersion = true;
-                    break;
-                }
-            }
-
-            if(isForcedVersion)
-            {
-                System.out.println("Repository is up to date!");
-                return;
-            }
-            else
-            {
-                needsUpdate = true;
-            }
-        }
+        boolean forceArtifactVersion = forcedVersion != null && !forcedVersion.isEmpty();
+        boolean forcedVersionMatchesBootstrap = forceArtifactVersion && forcedVersion.equals(version);
 
         for (Artifact art : artifacts) {
             if (!platformMatches(art)) {
                 continue;
             }
 
-            Path localFile = REPOSITORY_DIR.resolve(art.getName());
+            String artName = resolveArtifactName(art, version, forcedVersion);
+            Path localFile = REPOSITORY_DIR.resolve(artName);
 
             if (!Files.exists(localFile)) {
                 needsUpdate = true;
-                System.out.println("Missing artifact: " + art.getName());
+                System.out.println("Missing artifact: " + artName);
                 break;
             }
 
-            String localHash = HashUtil.computeSha256(localFile);
-            if (!localHash.equalsIgnoreCase(art.getHash())) {
-                needsUpdate = true;
-                System.out.println("Hash mismatch for " + art.getName());
-                break;
+            if (!forceArtifactVersion || forcedVersionMatchesBootstrap) {
+                String localHash = HashUtil.computeSha256(localFile);
+                if (!localHash.equalsIgnoreCase(art.getHash())) {
+                    needsUpdate = true;
+                    System.out.println("Hash mismatch for " + artName);
+                    break;
+                }
             }
         }
 
@@ -139,13 +119,11 @@ public class RLUpdater
                     continue;
                 }
 
-                String artName = art.getName();
-                String path = art.getPath();
-                if(forcedVersion != null && !forcedVersion.isEmpty())
+                String artName = resolveArtifactName(art, version, forcedVersion);
+                String path = resolveArtifactPath(art, version, forcedVersion);
+                if(forceArtifactVersion)
                 {
-                    System.out.println("Forcing version " + forcedVersion + " for artifact " + art.getName());
-                    artName = artName.replace(version, forcedVersion);
-                    path = path.replace(version, forcedVersion);
+                    System.out.println("Forcing version " + forcedVersion + " for artifact " + artName);
                 }
 
                 Path localFile = REPOSITORY_DIR.resolve(artName);
@@ -154,8 +132,8 @@ public class RLUpdater
                 downloadFile(path, localFile);
 
                 String downloadedHash = HashUtil.computeSha256(localFile);
-                if (!downloadedHash.equalsIgnoreCase(art.getHash()) && forcedVersion == null) {
-                    throw new IOException("Hash mismatch for " + art.getName()
+                if ((!forceArtifactVersion || forcedVersionMatchesBootstrap) && !downloadedHash.equalsIgnoreCase(art.getHash())) {
+                    throw new IOException("Hash mismatch for " + artName
                             + " (expected " + art.getHash()
                             + ", got " + downloadedHash + ")");
                 }
@@ -165,6 +143,25 @@ public class RLUpdater
         } else {
             System.out.println("Repository is up to date!");
         }
+    }
+
+    private static String resolveArtifactName(Artifact artifact, String bootstrapVersion, String forcedVersion)
+    {
+        return replaceBootstrapVersion(artifact.getName(), bootstrapVersion, forcedVersion);
+    }
+
+    private static String resolveArtifactPath(Artifact artifact, String bootstrapVersion, String forcedVersion)
+    {
+        return replaceBootstrapVersion(artifact.getPath(), bootstrapVersion, forcedVersion);
+    }
+
+    private static String replaceBootstrapVersion(String value, String bootstrapVersion, String forcedVersion)
+    {
+        if (forcedVersion == null || forcedVersion.isEmpty() || bootstrapVersion == null || bootstrapVersion.isEmpty())
+        {
+            return value;
+        }
+        return value.replace(bootstrapVersion, forcedVersion);
     }
 
     private static void downloadFile(String url, Path destination)

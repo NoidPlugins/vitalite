@@ -39,6 +39,7 @@ dependencies {
 val apiFilePatterns = mapOf(
     "" to Regex("""
     AnimationID\.java|
+    CameraFocusableEntity\.java|
     CollisionDataFlag\.java|
     EnumID\.java|
     FontID\.java|
@@ -90,6 +91,8 @@ tasks.register("syncRuneliteApi") {
     description = "Download selected runelite-api sources from GitHub raw and overwrite local files"
 
     doLast {
+        val runeliteRef = (findProperty("runeliteRef") as String?)
+            ?: "runelite-parent-${rootProject.extra["runeliteVersion"]}"
         val jsonSlurper = JsonSlurper()
         val apiBaseUrl = "https://api.github.com/repos/runelite/runelite/contents/" +
                 "runelite-api/src/main/java/net/runelite/api"
@@ -97,9 +100,9 @@ tasks.register("syncRuneliteApi") {
         apiFilePatterns.forEach { (subdir, pattern) ->
             // build the API endpoint URL for this subdirectory
             val dirUrl = if (subdir.isEmpty()) {
-                "$apiBaseUrl?ref=master"
+                "$apiBaseUrl?ref=$runeliteRef"
             } else {
-                "$apiBaseUrl/$subdir?ref=master"
+                "$apiBaseUrl/$subdir?ref=$runeliteRef"
             }
 
             // fetch directory listing as JSON

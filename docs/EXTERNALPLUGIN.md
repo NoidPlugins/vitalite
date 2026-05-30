@@ -4,15 +4,18 @@ This document provides guidelines and best practices for developing external plu
 ## Getting Started
 
 ### Needed Imports
-To get the current VitaLite version, look in the vitalite main module gradle.
+Pin plugin builds to the VitaLite release you are targeting. For this release:
+
 ```kt
-val apiVersion = "latest.release"
-compileOnly("net.runelite:client:$apiVersion")
-compileOnly("com.tonic:base-api:$apiVersion")
-compileOnly("com.tonic:api:$apiVersion")
+val runeliteVersion = "1.12.27"
+val vitaLiteVersion = "1.12.27_0"
+
+compileOnly("net.runelite:client:$runeliteVersion")
+compileOnly("com.tonic:base-api:$vitaLiteVersion")
+compileOnly("com.tonic:api:$vitaLiteVersion")
 ```
 
-for repositories {} section of your gradle, you'll want these:
+For the `repositories {}` section of your Gradle build, use:
 ```kt
 repositories {
     mavenLocal()

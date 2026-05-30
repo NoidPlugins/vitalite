@@ -105,7 +105,8 @@ bin/
 /src/main/java/com/tonic/test/
 /.idea/workspace.xml
 /src/main/resources/com/tonic/api.jar
-/base-api/src/main/java/net/runelite/api/
+/base-api/src/main/java/net/runelite/api/*
+!/base-api/src/main/java/net/runelite/api/CameraFocusableEntity.java
 /src/main/resources/com/tonic/api.jarData
 /src/main/resources/com/tonic/plugins.jarData
 /plugins/src/main/java/com/tonic/plugins/mcp/
@@ -114,3 +115,8 @@ bin/
 /agent/
 /api/src/main/java/com/tonic/services/llmapi/
 /.mcp.json
+
+# Local release/update workspaces and tool drops
+/update-*/
+/tools/
+*.rar

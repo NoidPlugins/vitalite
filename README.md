@@ -25,26 +25,28 @@ VitaLite is a launcher for RuneLite that offers additional features and customiz
 
 [Click Manager Docs](./docs/CLICKMANAGER.md)
 
+[1.12.27 Release Notes](./docs/RELEASE-1.12.27.md)
+
 ### Building from source
-**Requirements:** Jdk 11
-- Run the `SyncRuneliteApi` gradle task to download the latest RuneLite API _(Only need to run Once each rev update and first time you build)_
+**Requirements:** JDK 11
+- Run `./gradlew :base-api:syncRuneliteApi` to download the target-pinned RuneLite API mirror after a rev update or on first build.
 1. Run the `buildAndPublishAll` gradle task to build the artifacts and setup the main module correctly
 2. Run the `com.tonic.VitaLite` main class to launch the client
 
-### Run This 1.12.26.3 Update
+### Run This 1.12.27 Update
 
-This fork is pinned to RuneLite `1.12.26.3` by default, so you do not need to pass
+This fork is pinned to RuneLite `1.12.27` by default, so you do not need to pass
 `--targetBootstrap` for normal use.
 
 ```bash
 ./gradlew shadowJar
-java -jar build/libs/VitaLite-1.12.26.3_0-shaded.jar -safeLaunch
+java -jar build/libs/VitaLite-1.12.27_0-shaded.jar -safeLaunch
 ```
 
 You can still override the target manually when developing a future update:
 
 ```bash
-java -jar build/libs/VitaLite-1.12.26.3_0-shaded.jar -safeLaunch --targetBootstrap 1.12.26.3
+java -jar build/libs/VitaLite-1.12.27_0-shaded.jar -safeLaunch --targetBootstrap 1.12.27
 ```
 
 ## Contributing
@@ -57,16 +59,16 @@ java -jar build/libs/VitaLite-1.12.26.3_0-shaded.jar -safeLaunch --targetBootstr
 ## Client Command Line Options
 | Option         | Type    | Description                                                                                       |
 |----------------|---------|---------------------------------------------------------------------------------------------------|
-| `-runInjector` | Boolean | Run the injector on startup and update patch difs (for mixin development)                         |
+| `-runInjector` | Boolean | Run the injector on startup and update patch diffs (for mixin development)                        |
 | `--rsdump`     | String  | Path to dump the gamepack to (optional)                                                           |
-| `--targetBootstrap` | String | Override the pinned RuneLite bootstrap version. Defaults to `1.12.26.3`                     |
+| `--targetBootstrap` | String | Override the pinned RuneLite bootstrap version. Defaults to `1.12.27`                     |
 | `-noPlugins`   | Boolean | Disables loading of core plugins                                                                  |
-| `-min`         | Boolean | Runs jvm with minimal alotted memory.                                                             |
+| `-min`         | Boolean | Runs JVM with minimal allotted memory.                                                            |
 | `-noMusic`     | Boolean | Prevent the loading of music tracks                                                               |
 | `-incognito`   | Boolean | Visually display as 'RuneLite' instead of 'VitaLite'                                              |
 | `-help`        | Boolean | Displays help information about command line options                                              |
-| `--legacyLogin` | String | details for logging int (user:pass)                                                               |
-| `--jagexLogin` | String | details for logging int (sessionID:characterID:displayName)  or path to runelite credentials file |
+| `--legacyLogin` | String | Details for logging in (user:pass)                                                                |
+| `--jagexLogin` | String | Details for logging in (sessionID:characterID:displayName) or path to RuneLite credentials file   |
 | `--proxy`      | String  | Set a proxy server to use (e.g., ip:port or ip:port:username:password)                            |
 | `-disableMouseHook` | Boolean | Disable RuneLite's mousehook rlicn DLL from being loaded or called |
 

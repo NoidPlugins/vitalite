@@ -5050,7 +5050,7 @@
         "getter": 1507165324631712439,
         "isStatic": true,
         "name": "MouseHandler_lastPressedTimeMillis",
-        "obfuscatedName": "ao",
+        "obfuscatedName": "af",
         "owner": "MouseHandler",
         "ownerObfuscatedName": "tj",
         "setter": 5938402632377490183
@@ -5698,7 +5698,7 @@
         "descriptor": "Lorg/slf4j/Logger;",
         "isStatic": true,
         "name": "logger",
-        "obfuscatedName": "hy",
+        "obfuscatedName": "ii",
         "owner": "GameEngine",
         "ownerObfuscatedName": "client"
       },
@@ -5961,9 +5961,10 @@
       },
       {
         "descriptor": "(Ljava/lang/Object;)V",
+        "evidence": "1.12.26.3 tf.vy and 1.12.27 tf.lv are identical one-hop wrappers to tf.agd(Ljava/lang/Object;S)V",
         "isStatic": false,
         "name": "post",
-        "obfuscatedName": "vy",
+        "obfuscatedName": "lv",
         "owner": "GameEngine",
         "ownerObfuscatedName": "tf"
       },
@@ -5997,9 +5998,10 @@
       },
       {
         "descriptor": "()V",
+        "evidence": "1.12.26.3 tf.uh and 1.12.27 tf.hc are equivalent one-hop graphics tick wrappers",
         "isStatic": false,
         "name": "graphicsTick",
-        "obfuscatedName": "uh",
+        "obfuscatedName": "hc",
         "owner": "GameEngine",
         "ownerObfuscatedName": "tf"
       },
@@ -12501,7 +12503,7 @@
         "descriptor": "Ljava/lang/String;",
         "isStatic": true,
         "name": "packedCallStack2",
-        "obfuscatedName": "vd",
+        "obfuscatedName": "rh",
         "owner": "Client",
         "ownerObfuscatedName": "client"
       },
@@ -12931,7 +12933,7 @@
         "descriptor": "Lorg/slf4j/Logger;",
         "isStatic": true,
         "name": "logger",
-        "obfuscatedName": "hy",
+        "obfuscatedName": "ii",
         "owner": "Client",
         "ownerObfuscatedName": "client"
       },
@@ -13131,7 +13133,7 @@
         "descriptor": "Ljava/lang/String;",
         "isStatic": true,
         "name": "packedCallStack1",
-        "obfuscatedName": "rc",
+        "obfuscatedName": "uz",
         "owner": "Client",
         "ownerObfuscatedName": "client"
       },
@@ -13747,7 +13749,7 @@
         "garbageValue": 0,
         "isStatic": true,
         "name": "callStackCheck",
-        "obfuscatedName": "tz",
+        "obfuscatedName": "kt",
         "owner": "Client",
         "ownerObfuscatedName": "client"
       },
@@ -13812,7 +13814,7 @@
         "descriptor": "()Ljava/lang/String;",
         "isStatic": true,
         "name": "callStackCombiner",
-        "obfuscatedName": "tr",
+        "obfuscatedName": "zw",
         "owner": "Client",
         "ownerObfuscatedName": "client"
       },
@@ -14105,10 +14107,10 @@
         "ownerObfuscatedName": "client"
       },
       {
-        "descriptor": "(Llu;)Z",
+        "descriptor": "(Ljava/awt/Component;)V",
         "isStatic": true,
         "name": "mouseHookLoader",
-        "obfuscatedName": "zd",
+        "obfuscatedName": "initRLICN",
         "owner": "Client",
         "ownerObfuscatedName": "client"
       },
@@ -14576,7 +14578,7 @@
         "descriptor": "()V",
         "isStatic": false,
         "name": "callStackPacker2",
-        "obfuscatedName": "wb",
+        "obfuscatedName": "kz",
         "owner": "Client",
         "ownerObfuscatedName": "client"
       },
@@ -15062,7 +15064,7 @@
         "descriptor": "()V",
         "isStatic": true,
         "name": "callStackPacker1",
-        "obfuscatedName": "cr",
+        "obfuscatedName": "kt",
         "owner": "Client",
         "ownerObfuscatedName": "client"
       },
@@ -15350,6 +15352,7 @@
       },
       {
         "descriptor": "(IIIIIILjava/lang/String;Ljava/lang/String;III)V",
+        "evidence": "1.12.26.3 qd.fa and 1.12.27 qd.fa share the exact doAction descriptor and static helper owner",
         "garbageValue": 910500823,
         "isStatic": true,
         "name": "doAction",
